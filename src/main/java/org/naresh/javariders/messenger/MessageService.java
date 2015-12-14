@@ -32,6 +32,12 @@ public class MessageService
 		return messages;
 	}
 	
+	public Message getMessage(Integer id)
+	{
+		
+		return messages.get(id);
+	}
+	
 	
 	public Message addMessage(Message message)
 	{
