@@ -22,9 +22,9 @@ public class DataBaseClass {
 	public static Map<Integer,Profiles> profiles = new HashMap<Integer,Profiles>();
 	
 	
-	public static List<Message> getAllMessages()
+	public static Map<Integer, Message> getAllMessages()
 	{
-		return new ArrayList(messages.values());
+		return messages;
 	}
 	
 	

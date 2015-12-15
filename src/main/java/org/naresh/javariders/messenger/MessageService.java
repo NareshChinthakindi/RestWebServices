@@ -4,7 +4,9 @@
 package org.naresh.javariders.messenger;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import org.naresh.javariders.messenger.dao.DataBaseClass;
 import org.naresh.javariders.messenger.model.Message;
@@ -16,20 +18,41 @@ import org.naresh.javariders.messenger.model.Message;
 public class MessageService 
 {
 
-	private List<Message> messages = DataBaseClass.getAllMessages();
+	private Map<Integer, Message> messages = DataBaseClass.getAllMessages();
 	
 	
 	public MessageService()
 	{
 		Message m1= new Message(1,"Naresh","Test");
 		Message m2 = new Message(2,"Testsedt ","fdjsfjdsjsd ");
-		addMessage(m1);
-		addMessage(m2);
+		
+		messages.put(1, m1);
+		messages.put(2, m2);
+	}
+	
+	public List<Message> getMessageForYear(int year)
+	{
+		List<Message> result = new ArrayList<Message>();
+		
+		for (Message message : getAllMesages())
+		{
+			Calendar cal = Calendar.getInstance();
+			
+			cal.setTime(message.getCreatedDate());
+			
+			if(cal.get(Calendar.YEAR) == year)
+			{
+				result.add(message);
+			}
+			
+		}
+		
+		return result;
 	}
 	
 	public List<Message> getAllMesages()
 	{
-		return messages;
+		return new ArrayList(messages.values());
 	}
 	
 	public Message getMessage(Integer id)
@@ -56,5 +79,13 @@ public class MessageService
 	{
 		DataBaseClass.messages.remove(id);
 		return getAllMesages();
+	}
+
+	public List<Message> getMessageBySizeAndStartIndex(int start, int size)
+	{
+		List<Message> allMessages = getAllMesages();
+		
+		return allMessages.subList(start, size);
+		
 	}
 }
