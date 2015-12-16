@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.naresh.javariders.messenger.dao.DataBaseClass;
+import org.naresh.javariders.messenger.exception.DataNotFoundException;
 import org.naresh.javariders.messenger.model.Message;
 
 /**
@@ -57,8 +58,14 @@ public class MessageService
 	
 	public Message getMessage(Integer id)
 	{
+		Message message = messages.get(id);
 		
-		return messages.get(id);
+		if(message == null)
+		{
+			throw new DataNotFoundException("Message Not Found for Id "+id);
+		}
+		
+		return message;
 	}
 	
 	
