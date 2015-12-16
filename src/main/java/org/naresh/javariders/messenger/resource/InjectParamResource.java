@@ -10,7 +10,10 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.MatrixParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
 
 /**
  * @author nchintha
@@ -29,4 +32,14 @@ public class InjectParamResource {
 			{
 		               return "Val :"+matrixParam+" : HeaderParam : "+headerValue;
 			}
+	
+	
+	@GET
+	@Path("context")
+	 public String getUsingContextValues(@Context UriInfo uriInfo, @Context HttpHeaders headers)
+	 {
+		 String val = uriInfo.getAbsolutePath().toString();
+				 
+		 return val + " header : "+headers.getLanguage();
+	 }
 }

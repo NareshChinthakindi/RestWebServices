@@ -5,6 +5,7 @@ package org.naresh.javariders.messenger.resource;
 
 import java.util.List;
 
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.naresh.javariders.messenger.MessageService;
 import org.naresh.javariders.messenger.model.Message;
+import org.naresh.javariders.messenger.resource.bean.MessageBeanParam;
 
 /**
  * @author nchintha
@@ -32,17 +34,16 @@ public class MessageResource {
 	MessageService msgService = new MessageService();
 	
 	@GET
-	public List<Message> getMessage(@QueryParam("year") int year
-			,@QueryParam("start") int start,@QueryParam("size") int size)
+	public List<Message> getMessage(@BeanParam MessageBeanParam messageBeanParam)
 	{
 		
-		if(year > 0)
+		if(messageBeanParam.getYear() > 0)
 		{
-			return msgService.getMessageForYear(year);
+			return msgService.getMessageForYear(messageBeanParam.getYear());
 		}
-		else if(start >=0 && size >0)
+		else if(messageBeanParam.getStart() >=0 && messageBeanParam.getSize() >0)
 		{
-			return msgService.getMessageBySizeAndStartIndex(start,size);
+			return msgService.getMessageBySizeAndStartIndex(messageBeanParam.getStart(), messageBeanParam.getSize());
 		}
 		
 		return msgService.getAllMesages();
