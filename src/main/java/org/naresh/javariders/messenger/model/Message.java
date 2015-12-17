@@ -1,7 +1,9 @@
 package org.naresh.javariders.messenger.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -17,9 +19,22 @@ public class Message {
 	private int id;
 	
 	private Map<Integer,Comment> comments = new HashMap<Integer,Comment>();
+	private List<Links> links = new ArrayList<Links>();
 	
 	
 
+	/**
+	 * @return the links
+	 */
+	public List<Links> getLinks() {
+		return links;
+	}
+	/**
+	 * @param links the links to set
+	 */
+	public void setLinks(List<Links> links) {
+		this.links = links;
+	}
 	public Message()
 	{
 		
@@ -95,5 +110,12 @@ public class Message {
 		this.id = id;
 	}
 	
+	public void addLinks(String uri,String rel)
+	{
+		Links links = new Links();
+		links.setLink(uri);
+		links.setRel(rel);
+		this.links.add(links);
+	}
 	
 }

@@ -55,9 +55,31 @@ public class MessageResource {
 	
 	@GET
 	@Path("/{messageId}")
-	public Message getMessage(@PathParam("messageId") Integer messageId)
+	public Message getMessage(@PathParam("messageId") Integer messageId,@Context UriInfo uriInfo)
 	{
+		Message message = msgService.getMessage(messageId);
+		
+		message.addLinks(getURIPath(uriInfo, message),"self");
+		message.addLinks(getCommentURIPath(uriInfo, message),"comments");
+		
 		return msgService.getMessage(messageId);
+	}
+
+
+	private String getCommentURIPath(UriInfo uriInfo, Message message)
+	{
+		String uri = uriInfo.getBaseUriBuilder().path(MessageResource.class)
+				.path(MessageResource.class, "getComments")
+				.resolveTemplate("messageId", message.getId())
+				.build()
+				.toString();
+		return uri;
+	}
+
+
+	private String getURIPath(UriInfo uriInfo, Message message) {
+		String uri = uriInfo.getBaseUriBuilder().path(MessageResource.class).path(String.valueOf(message.getId())).build().toString();
+		return uri;
 	}
 	
 	@DELETE
